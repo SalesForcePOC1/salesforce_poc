@@ -64,7 +64,7 @@ explore: account{
   }
 
 explore: contact{
-  label: "contact and campaign"
+  label: "contact & campaign"
   view_name: contact
 
   join: campaign{
