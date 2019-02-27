@@ -549,6 +549,11 @@ view: opportunity {
     drill_fields: [detail*]
   }
 
+  measure: count_id {
+    type: count_distinct
+    sql: ${accountid} ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

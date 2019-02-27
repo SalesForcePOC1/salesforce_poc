@@ -96,6 +96,7 @@ view: account {
 
   dimension: billingstate {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}."BILLINGSTATE" ;;
   }
 
@@ -324,6 +325,7 @@ view: account {
     type: sum
     label: "Annual_Revenue"
     sql: ${TABLE}."ANNUALREVENUE" ;;
+    value_format: "$0.000M"
   }
 
   measure: cou_id {
