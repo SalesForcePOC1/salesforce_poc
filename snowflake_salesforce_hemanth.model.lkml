@@ -2,6 +2,8 @@ connection: "snowflake_salesforce"
 
 # include all the views
 include: "*.view"
+# include all the dashboards
+include: "*.dashboard"
 
 datagroup: snowflake_salesforce_hemanth_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;

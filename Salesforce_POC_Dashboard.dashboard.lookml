@@ -1,6 +1,6 @@
-- dashboard: salesforce_poc_dashboard
-  title: Salesforce Data
-  layout: title
+- dashboard: salesforce_data_test
+  title: Salesforce Data LookML
+  layout: newspaper
   elements:
   - title: Accounts Initiated per Leads
     name: Accounts Initiated per Leads
@@ -360,8 +360,8 @@
     col: 18
     width: 6
     height: 4
-  - title: Revenue Generated Vs. State
-    name: Revenue Generated Vs. State
+  - title: Revenue Generated Vs State
+    name: Revenue Generated Vs State
     model: snowflake_salesforce_hemanth
     explore: lead
     type: looker_map
@@ -428,41 +428,7 @@
     col: 12
     width: 12
     height: 6
-  - title: New Tile
-    name: New Tile
-    model: snowflake_salesforce_hemanth
-    explore: account
-    type: single_value
-    fields:
-    - account.billingstate
-    - opportunity.sum_expectedrevenue
-    filters:
-      account.billingstate: "-EMPTY"
-    sorts:
-    - opportunity.sum_expectedrevenue desc
-    limit: 500
-    dynamic_fields:
-    - table_calculation: calculation_1
-      label: Calculation 1
-      expression: rank(${opportunity.sum_expectedrevenue}, ${opportunity.sum_expectedrevenue})=1
-      value_format:
-      value_format_name:
-      _kind_hint: measure
-      _type_hint: yesno
-    custom_color_enabled: true
-    custom_color: ''
-    show_single_value_title: true
-    single_value_title: Pennsylvania
-    value_format: $0.000,, " M"
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    series_types: {}
-    row: 2
-    col: 0
-    width: 4
-    height: 2
+
   - title: New Tile
     name: New Tile
     model: snowflake_salesforce_hemanth
