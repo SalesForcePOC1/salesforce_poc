@@ -1,5 +1,5 @@
-view: opportunity {
-  sql_table_name: SALESFORCE.OPPORTUNITY ;;
+view: v_opportunity_validate {
+  sql_table_name: SFDC_SNOWFLAKE_LOOKER.V_OPPORTUNITY_VALIDATE ;;
 
   dimension: id {
     primary_key: yes
@@ -50,19 +50,23 @@ view: opportunity {
   }
 
   dimension: _sdc_sequence {
-    type: string
+    type: number
     sql: ${TABLE}."_SDC_SEQUENCE" ;;
   }
 
   dimension: _sdc_table_version {
-    type: string
+    type: number
     sql: ${TABLE}."_SDC_TABLE_VERSION" ;;
   }
 
   dimension: accountid {
     type: string
-    # hidden: yes
     sql: ${TABLE}."ACCOUNTID" ;;
+  }
+
+  dimension: activity_after_close {
+    type: number
+    sql: ${TABLE}."ACTIVITY_AFTER_CLOSE" ;;
   }
 
   dimension: amount {
@@ -130,7 +134,6 @@ view: opportunity {
 
   dimension: expectedrevenue {
     type: number
-    hidden: yes
     sql: ${TABLE}."EXPECTEDREVENUE" ;;
   }
 
@@ -139,18 +142,13 @@ view: opportunity {
     sql: ${TABLE}."FISCAL" ;;
   }
 
-  measure: fiscal1 {
-    type: string
-    sql: ${TABLE}."FISCAL" ;;
-  }
-
   dimension: fiscalquarter {
-    type: string
+    type: number
     sql: ${TABLE}."FISCALQUARTER" ;;
   }
 
   dimension: fiscalyear {
-    type: string
+    type: number
     sql: ${TABLE}."FISCALYEAR" ;;
   }
 
@@ -247,6 +245,11 @@ view: opportunity {
     sql: ${TABLE}."LOSS_REASON__C" ;;
   }
 
+  dimension: mod_months_old {
+    type: number
+    sql: ${TABLE}."MOD_MONTHS_OLD" ;;
+  }
+
   dimension: name {
     type: string
     sql: ${TABLE}."NAME" ;;
@@ -265,6 +268,11 @@ view: opportunity {
   dimension: ownerid {
     type: string
     sql: ${TABLE}."OWNERID" ;;
+  }
+
+  dimension: pending_actv_for_closed {
+    type: yesno
+    sql: ${TABLE}."PENDING_ACTV_FOR_CLOSED" ;;
   }
 
   dimension: probability {
@@ -514,6 +522,11 @@ view: opportunity {
     sql: ${TABLE}."STAGENAME" ;;
   }
 
+  dimension: sys_months_old {
+    type: number
+    sql: ${TABLE}."SYS_MONTHS_OLD" ;;
+  }
+
   dimension_group: systemmodstamp {
     type: time
     timeframes: [
@@ -535,67 +548,6 @@ view: opportunity {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
-  }
-
-  measure: cou_id {
-    label: "Count IDs"
-    type: count_distinct
-    sql: ${accountid} ;;
-  }
-  measure: count_id {
-    label: "Count IDs"
-    type: count_distinct
-    sql: ${accountid} ;;
-  }
-  measure: sum_expectedrevenue {
-    type: sum
-    filters: {
-      field: expectedrevenue
-      value: ">100000"
-    }
-    label: "Annual_Revenue"
-    sql: ${TABLE}."EXPECTEDREVENUE" ;;
-    value_format: "$###,##0;($0)"
-  }
-
-  measure: avg_deal_size {
-    type: average
-    label: "Average Deal Size"
-    sql: ${TABLE}."EXPECTEDREVENUE" ;;
-    value_format: "$###,##0;($0)"
-  }
-
-  measure: sum_forecasted_revenue {
-    type: sum
-    label: "Annual Revenue - Forecast"
-    sql: CASE WHEN  ${TABLE}."FORECASTCATEGORY" = 'Forecast' THEN ${expectedrevenue} ELSE 0 END;;
-    value_format: "$###,##0;($0)"
-  }
-
-  measure: sum_pipeline_revenue {
-    type: sum
-    label: "Annual Revenue - Pipeline"
-    sql: CASE WHEN  ${TABLE}."FORECASTCATEGORY" = 'Pipeline' THEN ${expectedrevenue} ELSE 0 END;;
-    value_format: "$###,##0;($0)"
-  }
-  measure: won_count_id {
-    label: "Won Count IDs"
-    type: count_distinct
-    sql: CASE WHEN ${iswon} = 'Yes' THEN ${accountid} END ;;
-  }
-
-
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      forecastcategoryname,
-      name,
-      stagename,
-      account.id,
-      account.name
-    ]
+    drill_fields: [id, forecastcategoryname, name, stagename]
   }
 }
