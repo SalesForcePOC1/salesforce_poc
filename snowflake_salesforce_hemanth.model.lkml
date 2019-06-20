@@ -49,7 +49,7 @@ explore: lead {
   }
 
 explore: account{
-  label: "account, contact and oppurtunity"
+  label: "account, contact and opportunity"
   view_name: account
 
   join: opportunity{
@@ -74,4 +74,9 @@ explore: contact{
     relationship: many_to_one
     sql_on: ${campaign.id} = ${contact.accountid} ;;
   }
-}
+  }
+
+  explore: v_account_validate {
+    label: "Account Validation"
+
+  }
